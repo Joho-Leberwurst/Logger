@@ -6,8 +6,8 @@ GPIO.setmode(GPIO.BOARD)
 
 counter = 0
 
-impulsbreite = 68 # (millisec)
-toleranz     =  5 # (millisec)
+impulsbreite = 65 # (millisec)
+toleranz     =  20 # (millisec)
 pin     = 5
 #UUID = 775e6cb0-78c2-11e4-9094-bd95e29b6ac6
 
