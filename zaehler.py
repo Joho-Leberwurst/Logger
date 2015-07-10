@@ -13,7 +13,7 @@ uuid = "e0266bf0-d009-11e4-b77e-f343d3e237a3"
 
 GPIO.setup(pin, GPIO.IN)
 t_start = 0
-went_through_zero = true
+went_through_zero = True
 
 while True:
     if (GPIO.input(pin) < 1):
@@ -25,8 +25,8 @@ while True:
                 counter += 1
                 print(counter)
                 t_start = 0
-                went_through_zero = false
+                went_through_zero = False
                 sleep(0.1)
     else:
         t_start = 0
-        went_through_zero = true
+        went_through_zero = True
