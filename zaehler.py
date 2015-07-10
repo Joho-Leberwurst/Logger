@@ -21,7 +21,7 @@ while True:
             if (t_start == 0):
                 t_start = time()
             if ( time() - t_start ) >= ( (impulsbreite-toleranz)/1000 ):
-                os.system("wget -quiet -output-document /dev/null http://localhost/middleware.php/data/" + uuid + ".json?operation=add&value=1")
+                os.system("wget -O /dev/null http://localhost/middleware.php/data/" + uuid + ".json?operation=add&value=1 --nv &")
                 counter += 1
                 print(counter)
                 t_start = 0
