@@ -1,32 +1,30 @@
 from RPi import GPIO
 from time import *
 import os
-GPIO.setmode(GPIO.BOARD)
 
 
-counter = 0
+#set GPI Mode
+GPIO.setmode(GPIO.BCM)
 
-impulsbreite = 65 # (millisec)
-toleranz     =  20 # (millisec)
-pin     = 5
-uuid = "e0266bf0-d009-11e4-b77e-f343d3e237a3"
+phaseOne     = 13
+uuid = "1d083960-3e9e-11e5-ab65-c39324b86969"
 
-GPIO.setup(pin, GPIO.IN)
-t_start = 0
-went_through_zero = True
+def inter( ):
+    try:  
+        GPIO.wait_for_edge(phaseOne, GPIO.RISING)  
+        print "Signal"
+        os.system("wget -O /dev/null http://localhost/middleware.php/data/" + uuid + ".json?operation=add&value=1 --nv &") 
+        inter( )
+    except KeyboardInterrupt:  
+        GPIO.cleanup( )  
 
-while True:
-    if (GPIO.input(pin) < 1):
-        if (went_through_zero):
-            if (t_start == 0):
-                t_start = time()
-            if ( time() - t_start ) >= ( (impulsbreite-toleranz)/1000 ):
-                os.system("wget -O /dev/null http://localhost/middleware.php/data/" + uuid + ".json?operation=add&value=1 --nv &")
-                counter += 1
-                print(counter)
-                t_start = 0
-                went_through_zero = False
-                sleep(0.1)
-    else:
-        t_start = 0
-        went_through_zero = True
+
+# set pin to pull_up_down
+GPIO.setup(phaseOne, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  
+try:  
+    GPIO.wait_for_edge(phaseOne, GPIO.RISING)  
+    os.system("wget -O /dev/null http://localhost/middleware.php/data/" + uuid + ".json?operation=add&value=1 --nv &") 
+    inter( )
+except KeyboardInterrupt:  
+    GPIO.cleanup( )  
+    
